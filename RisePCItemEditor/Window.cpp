@@ -520,6 +520,15 @@ System::String^ RisePCItemEditor::Window::FormatCharmForFile(CharmData^ charm)
 	);
 }
 
+System::String^ RisePCItemEditor::Window::FormatCharmForArmorSearchFile(CharmData^ charm)
+{
+	return String::Format("{0},{1},{2},{3},{4},{5},{6}\n",
+		SkillNames[charm->Skill1], charm->Skill1Level,
+		SkillNames[charm->Skill2], charm->Skill2Level,
+		GetFirstSlot(charm), GetSecondSlot(charm), GetThirdSlot(charm)
+	);
+}
+
 using namespace System::Collections;
 Generic::List<CharmData^>^ RisePCItemEditor::Window::GetCharmsFromEquipmentBox()
 {
@@ -607,6 +616,32 @@ System::Void RisePCItemEditor::Window::ExportCharms_Click(System::Object^ sender
 		for (int i = 0; i < Charms->Count; i++)
 		{
 			writer->Write(FormatCharmForFile(Charms[i]));
+		}
+
+		writer->Flush();
+		stream->Close();
+	}
+}
+
+System::Void RisePCItemEditor::Window::ExportCharmsArmorsetSearch_Click(System::Object^ sender, System::EventArgs^ e)
+{
+	if (Charms->Count == 0) return;
+
+	SaveFileDialog^ dlg = gcnew SaveFileDialog();
+	dlg->AddExtension = true;
+	dlg->Title = "Save Charms";
+	dlg->CheckFileExists = false;
+	dlg->Filter = "Text Files | *.txt";
+	dlg->DefaultExt = "txt";
+
+	if (dlg->ShowDialog(this) == Windows::Forms::DialogResult::OK)
+	{
+		IO::FileStream^ stream = IO::File::OpenWrite(dlg->FileName);
+		IO::StreamWriter^ writer = gcnew IO::StreamWriter(stream, System::Text::Encoding::UTF8);
+
+		for (int i = 0; i < Charms->Count; i++)
+		{
+			writer->Write(FormatCharmForArmorSearchFile(Charms[i]));
 		}
 
 		writer->Flush();

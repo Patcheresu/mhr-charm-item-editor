@@ -142,6 +142,7 @@ private: System::Windows::Forms::DataGridViewTextBoxColumn^ Column_Amount;
 private: System::Windows::Forms::MainMenu^ mainMenu1;
 private: System::Windows::Forms::MenuItem^ FileMenu;
 private: System::Windows::Forms::MenuItem^ ExportCharms;
+private: System::Windows::Forms::MenuItem^ ExportArmorCharms;
 private: System::Windows::Forms::MenuItem^ ExportItembox;
 private: System::Windows::Forms::MenuItem^ ImportCharms;
 private: System::Windows::Forms::MenuItem^ ImportItembox;
@@ -239,6 +240,7 @@ private: System::Windows::Forms::Button^ RawCharms;
 			this->mainMenu1 = (gcnew System::Windows::Forms::MainMenu(this->components));
 			this->FileMenu = (gcnew System::Windows::Forms::MenuItem());
 			this->ExportCharms = (gcnew System::Windows::Forms::MenuItem());
+			this->ExportArmorCharms = (gcnew System::Windows::Forms::MenuItem());
 			this->ExportItembox = (gcnew System::Windows::Forms::MenuItem());
 			this->ImportCharms = (gcnew System::Windows::Forms::MenuItem());
 			this->ImportItembox = (gcnew System::Windows::Forms::MenuItem());
@@ -758,8 +760,8 @@ private: System::Windows::Forms::Button^ RawCharms;
 			// FileMenu
 			// 
 			this->FileMenu->Index = 0;
-			this->FileMenu->MenuItems->AddRange(gcnew cli::array< System::Windows::Forms::MenuItem^  >(4) {
-				this->ExportCharms, this->ExportItembox,
+			this->FileMenu->MenuItems->AddRange(gcnew cli::array< System::Windows::Forms::MenuItem^  >(5) {
+				this->ExportCharms, this->ExportArmorCharms, this->ExportItembox,
 					this->ImportCharms, this->ImportItembox
 			});
 			this->FileMenu->Text = L"File";
@@ -770,21 +772,27 @@ private: System::Windows::Forms::Button^ RawCharms;
 			this->ExportCharms->Text = L"Export All Charms";
 			this->ExportCharms->Click += gcnew System::EventHandler(this, &Window::ExportCharms_Click);
 			// 
+			// ExportArmorCharms
+			// 
+			this->ExportArmorCharms->Index = 1;
+			this->ExportArmorCharms->Text = L"Export All Charms for Armor Set Search";
+			this->ExportArmorCharms->Click += gcnew System::EventHandler(this, &Window::ExportCharmsArmorsetSearch_Click);
+			// 
 			// ExportItembox
 			// 
-			this->ExportItembox->Index = 1;
+			this->ExportItembox->Index = 2;
 			this->ExportItembox->Text = L"Export Itembox";
 			this->ExportItembox->Click += gcnew System::EventHandler(this, &Window::ExportItembox_Click);
 			// 
 			// ImportCharms
 			// 
-			this->ImportCharms->Index = 2;
+			this->ImportCharms->Index = 3;
 			this->ImportCharms->Text = L"Import Charm(s)";
 			this->ImportCharms->Click += gcnew System::EventHandler(this, &Window::ImportCharms_Click);
 			// 
 			// ImportItembox
 			// 
-			this->ImportItembox->Index = 3;
+			this->ImportItembox->Index = 4;
 			this->ImportItembox->Text = L"Import Itembox";
 			this->ImportItembox->Click += gcnew System::EventHandler(this, &Window::ImportItembox_Click);
 			// 
@@ -891,6 +899,7 @@ private: System::Windows::Forms::Button^ RawCharms;
 		System::Void ReadItemBox_Click(System::Object^ sender, System::EventArgs^ e);
 		System::Void SaveItemBox_Click(System::Object^ sender, System::EventArgs^ e);
 		System::Void ExportCharms_Click(System::Object^ sender, System::EventArgs^ e);
+		System::Void ExportCharmsArmorsetSearch_Click(System::Object^ sender, System::EventArgs^ e);
 		System::Void ExportItembox_Click(System::Object^ sender, System::EventArgs^ e);
 		System::Void ImportCharms_Click(System::Object^ sender, System::EventArgs^ e);
 		System::Void ImportItembox_Click(System::Object^ sender, System::EventArgs^ e);
@@ -921,6 +930,7 @@ private: System::Windows::Forms::Button^ RawCharms;
 		System::Void ChangeMenuLanguage(String^ langname);
 		System::Void Language_Click(Object^ sender, EventArgs^ e);
 		System::String^ FormatCharmForFile(CharmData^ charm);
+		System::String^ FormatCharmForArmorSearchFile(CharmData^ charm);
 		Generic::List<CharmData^>^ GetCharmsFromEquipmentBox();
 };
 }
